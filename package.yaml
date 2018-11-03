@@ -1,0 +1,57 @@
+name: bencodex
+version: 0.1.0
+synopsis: Bencodex reader for Haskell
+category: Serialization
+author: Hong Minhee <hong.minhee@gmail.com>
+maintainer: Hong Minhee <hong.minhee@gmail.com>
+copyright: (c) 2018 Hong Minhee
+license: GPL-3.0-or-later
+github: dahlia/bencodex-haskell
+extra-source-files:
+- README.md
+- CHANGES.md
+description: ! >
+  Please see the README on GitHub at
+  <https://github.com/dahlia/bencodex-haskell#readme>.
+ghc-options:
+- -Werror
+- -Wall
+- -fwarn-incomplete-uni-patterns
+- -fprint-explicit-kinds
+dependencies:
+- base >= 4.7 && < 5
+- bytestring
+- text
+- unordered-containers
+library:
+  source-dirs: src
+  dependencies:
+  - attoparsec >= 0.12 && < 1
+  - hashable
+tests:
+  spec:
+    main: Spec.hs
+    source-dirs: test
+    ghc-options:
+    - -Wno-incomplete-uni-patterns
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - bencodex
+    - base64-bytestring
+    - containers
+    - filepath
+    - file-embed
+    - hspec >= 2.4.8 && < 3
+    - hspec-attoparsec >= 0.1.0.2 && < 0.2
+    - hspec-discover >= 2.4.8 && < 3
+    - HsYAML == 0.1.1.2
+  hlint:
+    main: hlint.hs
+    source-dirs: test
+    other-modules: []
+    ghc-options:
+    - -threaded
+    dependencies:
+    - hlint >= 2.1.7 && < 2.2

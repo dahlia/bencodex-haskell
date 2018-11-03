@@ -1,0 +1,8 @@
+resolver: lts-12.15
+packages:
+- .
+extra-deps:
+- HsYAML-0.1.1.2
+ghc-options:
+  "$locals": -fhide-source-paths
+require-stack-version: ">=1.7.1"
