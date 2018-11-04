@@ -1,5 +1,5 @@
-Bencodex reader for Haskell
-===========================
+Bencodex reader/writer for Haskell
+==================================
 
 This package implements [Bencodex] serialization format which extends
 [Bencoding].

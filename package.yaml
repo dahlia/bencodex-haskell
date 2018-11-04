@@ -1,6 +1,6 @@
 name: bencodex
 version: 0.1.0
-synopsis: Bencodex reader for Haskell
+synopsis: Bencodex reader/writer for Haskell
 category: Serialization
 author: Hong Minhee <hong.minhee@gmail.com>
 maintainer: Hong Minhee <hong.minhee@gmail.com>
