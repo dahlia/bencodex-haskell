@@ -48,3 +48,22 @@ install:
 
 script:
 - stack --no-terminal test --haddock --no-haddock-deps
+
+after_success:
+- mkdir -p ~/.stack/upload
+- sed -i -E 's/\s-Werror$/ -Wwarn/g' package.yaml   # Hackage disallows -Werror
+- stack --no-terminal sdist --ignore-check
+- |
+  if [[ "$TRAVIS_TAG" != "" ]]; then
+    {
+      echo '{'
+      echo '"username":'
+      python -c 'import json,sys;print(json.dumps(sys.argv[1]))' \
+        "$HACKAGE_USERNAME"
+      echo ',"password":'
+      python -c 'import json,sys;print(json.dumps(sys.argv[1]))' \
+        "$HACKAGE_PASSWORD"
+      echo '}'
+    } > ~/.stack/upload/credentials.json
+    stack --no-terminal upload --ignore-check --no-signature .
+  fi
