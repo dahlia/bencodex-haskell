@@ -4,7 +4,7 @@ synopsis: Bencodex reader/writer for Haskell
 category: Serialization
 author: Hong Minhee <hong.minhee@gmail.com>
 maintainer: Hong Minhee <hong.minhee@gmail.com>
-copyright: (c) 2018 Hong Minhee
+copyright: "\xa9 2018 Hong Minhee"
 license: GPL-3.0-or-later
 github: dahlia/bencodex-haskell
 extra-source-files:
