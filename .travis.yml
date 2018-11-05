@@ -10,11 +10,38 @@ addons:
       - libgmp-dev
 
 before_install:
+# Changelog check
+- |
+  last_commit="${TRAVIS_PULL_REQUEST_SHA:-${TRAVIS_TAG:-${TRAVIS_COMMIT}}}"
+  echo "$last_commit"
+  git show --format=%B --quiet "$last_commit" > /tmp/last-commit-message
+  cat /tmp/last-commit-message
+- |
+  if fgrep '[changelog skip]' /tmp/last-commit-message > /dev/null; then
+    echo "Skip changelog checker..."
+  elif [[ "$TRAVIS_TAG" != "" ]]; then
+    ! fgrep -i "to be released" CHANGES.md
+  elif [[ "$TRAVIS_COMMIT_RANGE" != "" ]]; then
+    {
+      git diff --name-only "$TRAVIS_COMMIT_RANGE" || \
+      git diff --name-only "$TRAVIS_COMMIT^..$TRAVIS_COMMIT"
+    } > /tmp/changed-files.txt
+    cat /tmp/changed-files.txt
+    fgrep CHANGES.md /tmp/changed-files.txt
+  fi
+# Install Stack
 - mkdir -p "$HOME/.local/bin"
 - export PATH="$HOME/.local/bin:$PATH"
 - |
   travis_retry curl -L https://get.haskellstack.org/stable/linux-x86_64.tar.gz \
     | tar xz --wildcards --strip-components=1 -C "$HOME/.local/bin" '*/stack'
+# Version check
+- |
+  if [[ "$TRAVIS_TAG" != "" ]]; then
+    pkg_version="$(stack query locals bencodex version)"
+    echo "$pkg_version"
+    [[ "$pkg_version" = "'$TRAVIS_TAG'" || "$pkg_version" = "$TRAVIS_TAG" ]]
+  fi
 
 install:
 - stack --no-terminal --install-ghc test --only-dependencies
